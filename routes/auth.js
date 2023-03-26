@@ -70,7 +70,9 @@ router.post('/login', async (req, res) => {
         token,
         {
           expires: new Date(Date.now() + 25892000000), //after 30 days expires
-          httpOnly: false
+          httpOnly: false,
+          sameSite: 'none',
+          secure:true
         },
         console.log('token is stored in cookie')
       );
