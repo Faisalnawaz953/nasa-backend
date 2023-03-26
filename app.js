@@ -6,7 +6,8 @@ require('dotenv').config();
 const PORT = process.env.PORT || 5000;
 
 const corsOptions = {
-  origin: true,
+    
+  origin:'http://localhost:3000',
   credentials: true
 };
 //Middleware
