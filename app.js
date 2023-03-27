@@ -5,7 +5,7 @@ const cors = require('cors');
 require('dotenv').config();
 const PORT = process.env.PORT || 5000;
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "https://nasa-frontend-five.vercel.app");
+  res.header("Access-Control-Allow-Origin", "http://localhost:5173");
   res.header("Access-Control-Allow-Credentials", true);
   res.header("Access-Control-Max-Age", 3000);
   res.header("Access-Control-Allow-Methods", [
@@ -23,15 +23,9 @@ app.use(function (req, res, next) {
 
   next();
 });
-const whitelist = [ 'https://nasa-frontend-five.vercel.app']
+const whitelist = [ 'https://nasa-frontend-five.vercel.app','http://localhost:5173']
 const corsOptions = {
-  origin: (origin, callback) => {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error())
-    }
-  },
+  origin: whitelist,
   methods:["POST", "PUT", "GET", "OPTIONS", "HEAD", "PATCH"],
   credentials: true
 }
