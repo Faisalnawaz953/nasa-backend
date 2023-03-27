@@ -23,7 +23,7 @@ userSchema.pre('save', async function (next) {
   if (this.isModified('password')) {
     console.log(this.password, 'password');
     this.password = await bcrypt.hash(this.password, 10); // whatever current password hash
-    console.log(this.password, 'hashed password');
+
     this.confirm_password = await bcrypt.hash(this.confirm_password, 10);
   }
   next(); //isy next line auth.js ma save() ka method call ho ga

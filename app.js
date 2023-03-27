@@ -24,17 +24,17 @@ app.use(function (req, res, next) {
   next();
 });
 const whitelist = [ 'https://nasa-frontend-five.vercel.app']
-const corsOptions = {
-  origin: (origin, callback) => {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error())
-    }
-  },
-  methods:["POST", "PUT", "GET", "OPTIONS", "HEAD", "PATCH"],
-  credentials: true
-}
+// const corsOptions = {
+//   origin: (origin, callback) => {
+//     if (whitelist.indexOf(origin) !== -1) {
+//       callback(null, true)
+//     } else {
+//       callback(new Error())
+//     }
+//   },
+//   methods:["POST", "PUT", "GET", "OPTIONS", "HEAD", "PATCH"],
+//   credentials: true
+// }
 
 //Middleware
 app.use(cors(corsOptions));
