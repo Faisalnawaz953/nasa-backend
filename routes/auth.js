@@ -69,22 +69,11 @@ router.post('/login', async (req, res) => {
 
       //JWT tockenization in userMOdel
       token = await login.generateAuthToken();
-      console.log('token=', token);
-      res.cookie(
-        'jwtoken',
-        token,
-        {
-          expires: new Date(Date.now() + 25892000000), //after 30 days expires
-          httpOnly: false,
-          sameSite: 'none',
-          secure: true
-        },
-        console.log('token is stored in cookie')
-      );
+      
       if (!ismatch) {
         res.status(500).json({ message: 'Invalid crediential ' });
       } else {
-        res.json({ message: 'user login successfully' });
+        res.json({ message: 'user login successfully',token });
       }
     } else {
       res.status(500).json({ message: 'Invalid credientials ' });
@@ -131,22 +120,11 @@ router.post('/google-login', async (req, res) => {
       //JWT tockenization in userMOdel
       token = await login.generateAuthToken();
 
-      res.cookie(
-        'jwtoken',
-        token,
-        {
-          expires: new Date(Date.now() + 25892000000), //after 30 days expires
-          httpOnly: true,
-          sameSite: 'none',
-          secure: true,
-          domain:'nasa-frontend-five.vercel.app'
-        },
-        console.log('token is stored in cookie',token)
-      );
+      
       if (!ismatch) {
         res.status(500).json({ message: 'Invalid crediential ' });
       } else {
-        res.json({ message: 'user login successfully' });
+        res.json({ message: 'user login successfully',token });
       }
     } else {
       res.status(500).json({ message: 'Invalid credientials ' });
