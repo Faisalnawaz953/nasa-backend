@@ -7,6 +7,7 @@ const PORT = process.env.PORT || 5000;
 
 const corsOptions = {
   origin: 'https://nasa-frontend-five.vercel.app',
+  methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD", "PATCH"],
   credentials: true
 };
 //Middleware
