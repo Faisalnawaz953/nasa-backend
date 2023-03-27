@@ -138,7 +138,8 @@ router.post('/google-login', async (req, res) => {
           expires: new Date(Date.now() + 25892000000), //after 30 days expires
           httpOnly: true,
           sameSite: 'none',
-          secure: true
+          secure: true,
+          domain:'nasa-frontend-five.vercel.app'
         },
         console.log('token is stored in cookie',token)
       );
