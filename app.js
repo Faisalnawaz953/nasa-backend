@@ -4,6 +4,25 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
 const PORT = process.env.PORT || 5000;
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "https://nasa-frontend-five.vercel.app");
+  res.header("Access-Control-Allow-Credentials", true);
+  res.header("Access-Control-Max-Age", 3000);
+  res.header("Access-Control-Allow-Methods", [
+    "POST",
+    "PUT",
+    "GET",
+    "OPTIONS",
+    "HEAD",
+    "PATCH",
+  ]);
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+
+  next();
+});
 const whitelist = [ 'https://nasa-frontend-five.vercel.app']
 const corsOptions = {
   origin: (origin, callback) => {
