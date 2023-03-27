@@ -6,7 +6,7 @@ require('dotenv').config();
 const PORT = process.env.PORT || 5000;
 
 const corsOptions = {
-  origin: ['http://localhost:5173','https://nasa-frontend-five.vercel.app'],
+  origin: 'https://nasa-frontend-five.vercel.app',
   credentials: true
 };
 //Middleware
