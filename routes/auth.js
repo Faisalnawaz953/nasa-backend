@@ -3,7 +3,12 @@ const User = require('../model/userModel');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const request = require('request');
-
+const { OAuth2Client } = require('google-auth-library');
+const client = new OAuth2Client(
+  process.env.GOOGLE_CLIENT_ID,
+  process.env.CLIENT_SECRET,
+  'postmessage'
+);
 
 const authenticate = require('../middleware/authenticate');
 
@@ -72,9 +77,70 @@ router.post('/login', async (req, res) => {
           expires: new Date(Date.now() + 25892000000), //after 30 days expires
           httpOnly: false,
           sameSite: 'none',
-          secure:true
+          secure: true
         },
         console.log('token is stored in cookie')
+      );
+      if (!ismatch) {
+        res.status(500).json({ message: 'Invalid crediential ' });
+      } else {
+        res.json({ message: 'user login successfully' });
+      }
+    } else {
+      res.status(500).json({ message: 'Invalid credientials ' });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+router.post('/google-login', async (req, res) => {
+  try {
+    let token;
+    const { code } = req.body;
+
+    if (!code) {
+      // fields cant be empty
+      return res.status(500).json({ error: 'All fields are required' });
+    }
+    const { tokens } = await client.getToken(code); // exchange code for tokens
+
+    const ticket = await client.verifyIdToken({
+      idToken: tokens?.id_token,
+      audience: process.env.GOOGLE_CLIENT_ID
+    });
+
+    const payload = await ticket.getPayload();
+    const { email, name } = payload;
+    let login = await User.findOne({ email: email });
+    if (!login) {
+      const newUser = new User({
+        email,
+        password: '12345',
+        confirm_password: '12345',
+        name
+      });
+      login = await newUser.save();
+    }
+
+    // console.log(login);
+    //login ky pas pora email and pass h
+    if (login) {
+      const ismatch = await bcrypt.compare('12345', login.password); //compare krna user login ka pass and orginal
+
+      //JWT tockenization in userMOdel
+      token = await login.generateAuthToken();
+
+      res.cookie(
+        'jwtoken',
+        token,
+        {
+          expires: new Date(Date.now() + 25892000000), //after 30 days expires
+          httpOnly: false,
+          sameSite: 'none',
+          secure: true
+        },
+        console.log('token is stored in cookie',token)
       );
       if (!ismatch) {
         res.status(500).json({ message: 'Invalid crediential ' });
