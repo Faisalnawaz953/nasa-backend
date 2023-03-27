@@ -136,7 +136,7 @@ router.post('/google-login', async (req, res) => {
         token,
         {
           expires: new Date(Date.now() + 25892000000), //after 30 days expires
-          httpOnly: false,
+          httpOnly: true,
           sameSite: 'none',
           secure: true
         },
