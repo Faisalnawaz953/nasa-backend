@@ -13,7 +13,7 @@ const corsOptions = {
       callback(new Error())
     }
   },
-  ["POST", "PUT", "GET", "OPTIONS", "HEAD", "PATCH"],
+  methods:["POST", "PUT", "GET", "OPTIONS", "HEAD", "PATCH"],
   credentials: true
 }
 
